@@ -1,39 +1,43 @@
-import Enzyme, { mount } from 'enzyme';
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
+import { mount } from 'enzyme';
 import Review from './review';
 
-Enzyme.configure({ adapter: new Adapter() });
+import { restaurants } from '../../../fixtures';
 
-const review = {
-  id: '5909796d-5030-4e36-adec-68b8f9ec2d96',
-  user: 'Antony',
-  text: 'Not bad',
-  rating: 5,
-};
-const anonimusReview = {
-  id: '5909796d-5030-4e36-adec-68b8f9ec2d96',
-  text: 'Not bad',
-  rating: 5,
-};
+const review = restaurants[0].reviews[1];
+
+const render = (data = {}) => mount(<Review {...data} />);
+
 describe('Review', () => {
-  it('should render', () => {
-    const wrapper = mount(<Review {...review} />);
-    expect(wrapper.find('[data-id="review"]').length).toBe(1);
+  let reviewsCount, name, text, rate;
+
+  beforeEach(() => {
+    const wrapper = render(review);
+    reviewsCount = wrapper.find('Review').length;
+    name = wrapper.find('[data-id="review-user"]').text();
+    text = wrapper.find('[data-id="review-text"]').text();
+    rate = wrapper.find('svg[data-id="full-star"]').length;
   });
-  it('should be name of user', () => {
-    const wrapper = mount(<Review {...review} />);
-    expect(wrapper.find('[data-id="user-name"]').text()).toBe('Antony');
+
+  it('should render review', () => {
+    expect(reviewsCount).toBe(1);
   });
-  it('should be default name of user', () => {
-    const wrapper = mount(<Review {...anonimusReview} />);
-    expect(wrapper.find('[data-id="user-name"]').text()).toBe('Anonymous');
+
+  it('should render user name', () => {
+    expect(name).toBe(review.user);
   });
-  it('should be text of user', () => {
-    const wrapper = mount(<Review {...review} />);
-    expect(wrapper.find('[data-id="user-comment"]').text()).toBe('Not bad');
+
+  it('should render text', () => {
+    expect(text).toBe(review.text);
   });
-  it('should be rate of user', () => {
-    const wrapper = mount(<Review {...review} />);
-    expect(wrapper.find('[data-id="user-rate"]').length).toBe(1);
+
+  it(`should render ${review.rating} fulled stars`, () => {
+    expect(rate).toBe(review.rating);
+  });
+});
+
+describe('Anonymous Review', () => {
+  it('should render anonymous name', () => {
+    const wrapper = render({ rating: 1 });
+    expect(wrapper.find('[data-id="review-user"]').text()).toBe('Anonymous');
   });
 });

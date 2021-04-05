@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -11,6 +12,7 @@ const Rate = ({ value }) => (
     {[...Array(5)].map((_, i) => (
       <Star
         key={i}
+        data-id={i <= value - 1 ? 'full-star' : 'empty-star'}
         className={cn(styles.star, { [styles.checked]: i <= value - 1 })}
       />
     ))}
@@ -18,6 +20,10 @@ const Rate = ({ value }) => (
 );
 Rate.propTypes = {
   name: PropTypes.string || PropTypes.number,
+};
+
+Rate.propTypes = {
+  value: PropTypes.number.isRequired,
 };
 
 export default Rate;
