@@ -1,10 +1,18 @@
 import React from 'react';
+<<<<<<< HEAD
+=======
+import PropTypes from 'prop-types';
+>>>>>>> e9b6116f6de77eb502bff8bfd0724522d970ca3b
 import useForm from '../../../hooks/use-form';
 
 import Rate from '../../rate';
 import styles from './review-form.module.css';
 import { connect } from 'react-redux';
 import Button from '../../button';
+<<<<<<< HEAD
+=======
+import { addReview } from '../../../redux/actions';
+>>>>>>> e9b6116f6de77eb502bff8bfd0724522d970ca3b
 
 const INITIAL_VALUES = { name: '', text: '', rating: 3 };
 
@@ -51,6 +59,18 @@ const ReviewForm = ({ onSubmit }) => {
   );
 };
 
+<<<<<<< HEAD
 export default connect(null, () => ({
   onSubmit: (values) => console.log(values), // TODO
 }))(ReviewForm);
+=======
+ReviewForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch, props) => ({
+  onSubmit: (review) => dispatch(addReview(review, props.restaurantId)),
+});
+
+export default connect(null, mapDispatchToProps)(ReviewForm);
+>>>>>>> e9b6116f6de77eb502bff8bfd0724522d970ca3b

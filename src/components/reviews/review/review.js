@@ -1,10 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Rate from '../../rate';
 import { reviewSelector } from '../../../redux/selectors';
 
 import styles from './review.module.css';
+import { reviewWitUserSelector } from '../../../redux/selectors';
 
 const Review = ({ user, text, rating }) => {
   return (
@@ -45,4 +47,16 @@ export default connect((state, props) => {
 //   review: state.reviews[props.id],
 // });
 
+<<<<<<< HEAD
 // export default connect(mapStateToProps)(Review);
+=======
+// const mapStateToProps = (state, props) => ({
+//   ...reviewWitUserSelector(state, props),
+// });
+
+// const mapStateToProps = (state, props) => reviewWitUserSelector(state, props);
+
+const mapStateToProps = reviewWitUserSelector;
+
+export default connect(mapStateToProps)(Review);
+>>>>>>> e9b6116f6de77eb502bff8bfd0724522d970ca3b

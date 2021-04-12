@@ -1,19 +1,39 @@
+<<<<<<< HEAD
 import React, { useMemo, useState } from 'react';
+=======
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+>>>>>>> e9b6116f6de77eb502bff8bfd0724522d970ca3b
 import PropTypes from 'prop-types';
 import Menu from '../menu';
 import Reviews from '../reviews';
 import Banner from '../banner';
 import Rate from '../rate';
 import Tabs from '../tabs';
+<<<<<<< HEAD
 
 const Restaurant = ({ restaurant }) => {
   const { name, menu, reviews } = restaurant;
+=======
+import {
+  averageRatingSelector,
+  restaurantSelector,
+} from '../../redux/selectors';
+
+const Restaurant = ({ restaurant, averageRating }) => {
+  const { id, name, menu, reviews } = restaurant;
+>>>>>>> e9b6116f6de77eb502bff8bfd0724522d970ca3b
   const [activeTab, setActiveTab] = useState('menu');
 
-  const averageRating = useMemo(() => {
-    const total = reviews.reduce((acc, { rating }) => acc + rating, 0);
-    return Math.round(total / reviews.length);
-  }, [reviews]);
+  const tabs = [
+    { id: 'menu', title: 'Menu' },
+    { id: 'reviews', title: 'Reviews' },
+  ];
+
+  const content = {
+    menu: <Menu menu={menu} key={id} />,
+    reviews: <Reviews reviews={reviews} restaurantId={id} />,
+  }[activeTab];
 
   const tabs = [
     { id: 'menu', title: 'Menu' },
@@ -38,14 +58,17 @@ const Restaurant = ({ restaurant }) => {
 
 Restaurant.propTypes = {
   restaurant: PropTypes.shape({
+    id: PropTypes.string,
     name: PropTypes.string,
     menu: PropTypes.array,
-    reviews: PropTypes.arrayOf(
-      PropTypes.shape({
-        rating: PropTypes.number.isRequired,
-      }).isRequired
-    ).isRequired,
+    reviews: PropTypes.array,
   }).isRequired,
+  averageRating: PropTypes.number,
 };
 
-export default Restaurant;
+const mapStateToProps = (state, props) => ({
+  restaurant: restaurantSelector(state, props),
+  averageRating: averageRatingSelector(state, props),
+});
+
+export default connect(mapStateToProps)(Restaurant);
